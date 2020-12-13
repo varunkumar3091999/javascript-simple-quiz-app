@@ -15,22 +15,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>online</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 
 <body translate="no">
 
 
   <div id="quiz">
-    <!-- <h2 id="question">Please Enter your name.</h2>
-    <input id="name-input"></input>
-    <button id="name">Submit Answers</button> -->
-    <h1 style="font-size: 35px; padding-bottom: 15px;" id="quiz-name"></h1><br>
-    <button id="next-question-button">Next Question</button>
-    <button id="prev-question-button">Previous</button>
-    <button id="submit-button">Submit Answers</button>
-    <div id="quiz-results">
-      <p id="quiz-results-message"></p>
-      <p id="quiz-results-score"></p>
+    <div id="name-div">
+      <h4 id="name-question">Please Enter your name.</h4>
+      <input id="name-input" class="w3-input"></input>
+      <button id="name">Enter</button>
+    </div>
+    <div id="questions">
+      <h1 style="font-size: 35px; padding-bottom: 15px;" id="quiz-name"></h1><br>
+      <button id="next-question-button">Next Question</button>
+      <button id="prev-question-button">Previous</button>
+      <button id="submit-button">Submit Answers</button>
+      <div id="quiz-results">
+        <p id="quiz-results-message"></p>
+        <p id="quiz-results-score"></p>
+      </div>
     </div>
   </div>
 
@@ -141,6 +146,13 @@
       // Create a container for questions
       var question_container = $('<div>').attr('id', 'question').insertAfter('#quiz-name');
 
+      $('#questions').hide();
+
+      $('#name').click(() => {
+        $('#name-div').hide();
+        $('#questions').show();
+      })
+
       // Helper function for changing the question and updating the buttons
       function change_question() {
         self.questions[current_question_index].render(question_container);
@@ -190,16 +202,17 @@
 
         // Display the score with the appropriate message
         var percentage = score / self.questions.length;
+        let name = document.getElementById("name-input").value;
         console.log(percentage);
         var message;
         if (percentage === 1) {
-          message = 'Great job!'
+          message = `Great job! ${name}.`;
         } else if (percentage >= .75) {
-          message = 'You did alright.'
+          message = `You did alright, ${name}.`
         } else if (percentage >= .5) {
-          message = 'Better luck next time.'
+          message = `Better luck next time. ${name}.`
         } else {
-          message = 'Maybe you should try a little harder.'
+          message = `Maybe you should try a little harder, ${name}.`
         }
         $('#quiz-results-message').text(message);
         $('#quiz-results-score').html('You got <b>' + score + '/' + self.questions.length + '</b> questions correct.');
